@@ -1,0 +1,68 @@
+Program.Sub.ScreenSU.Start
+Program.Sub.ScreenSU.End
+
+Program.Sub.Preflight.Start
+
+Program.Sub.Preflight.End
+
+Program.Sub.Main.Start
+'Coded by: John Davis
+'Project Start Date: 11/14/2010
+'Hooks:
+'  11110
+'
+'Other Components:
+'  ATG_FLAG_ROUTER_LOCK
+'  TABLE
+'  ATG_3197_ROUTER_LOCK
+' RE0010GI
+
+
+V.Local.sCol.Declare(String)
+V.Local.sWidth.Declare(String)
+V.Local.sret.Declare(String)
+V.Local.squery.Declare(String)
+
+F.ODBC.Connection!con.OpenConnection(V.Ambient.PDSN,V.Ambient.PUser,V.Ambient.PPass)
+
+F.Intrinsic.String.Concat("SELECT LOCKED,COMMENT FROM ATG_3197_ROUTER_LOCK WHERE ROUTER= '",V.passed.000014,"' ",V.Local.squery)
+F.ODBC.Connection!con.OpenRecordsetRO("rst",V.Local.squery)
+F.Intrinsic.Control.If(V.ODBC.con!rst.EOF,=,False)
+	F.Intrinsic.Control.If(V.ODBC.con!rst.FieldVal!LOCKED,=,True)
+		V.passed.000014.set("")
+		V.passed.000015.set("")
+		V.passed.000017.set("")
+		V.passed.000029.set("")
+		V.passed.000022.set("")
+		V.passed.000024.set(".00")
+		V.passed.000025.set(".00")
+		V.passed.000027.set("")
+		V.passed.000037.set("")
+		V.passed.008000.set("")
+		V.passed.008001.set("")
+		V.passed.008002.set("")
+		V.passed.008003.set("")
+		V.passed.008004.set("")
+		V.passed.008005.set("")
+		V.passed.008006.set("")
+		V.passed.008007.set("")
+		V.passed.008008.set("")
+		V.passed.008009.set("")
+
+		F.Intrinsic.UI.Msgbox("Router is Locked")
+	F.Intrinsic.Control.endif
+F.Intrinsic.Control.EndIf
+
+F.ODBC.con!rst.Close
+
+F.ODBC.Connection!con.Close
+F.Intrinsic.Control.End
+
+
+Program.Sub.Main.End
+
+
+
+Program.Sub.Comments.Start
+${$0$}$$}$$}$12:00:00 AM$}$False
+Program.Sub.Comments.End
